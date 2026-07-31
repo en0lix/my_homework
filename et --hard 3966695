@@ -1,0 +1,85 @@
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{0}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{1}: checkout: moving from main to develop
+[33meef710e[m[33m ([m[1;32mmain[m[33m)[m HEAD@{2}: commit: fix: align masks tests with requirements, add widget tests, remove tests from src
+[33mfbf60ee[m HEAD@{3}: commit: test: add parametrized tests for widget module
+[33m6b112a7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{4}: checkout: moving from feature/masks-dates-filter to main
+[33mb811054[m[33m ([m[1;31morigin/feature/masks-dates-filter[m[33m, [m[1;32mfeature/masks-dates-filter[m[33m)[m HEAD@{5}: checkout: moving from main to feature/masks-dates-filter
+[33m6b112a7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{6}: Branch: renamed refs/heads/feature/homework_10_1 to refs/heads/main
+[33m6b112a7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{8}: commit: first commit
+[33m146030d[m HEAD@{9}: commit: init: initial commit with project structure
+[33m0fb283d[m HEAD@{10}: commit: feat: masks, date parsing, filtering with fixtures & parametrization, >80% cov
+[33m7002434[m HEAD@{11}: commit: feat: masks module and tests
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{12}: reset: moving to develop
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{13}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{14}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{15}: checkout: moving from main to develop
+[33me4d130b[m HEAD@{16}: checkout: moving from feature/homework_10_1 to main
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{17}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{18}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{19}: checkout: moving from main to develop
+[33me4d130b[m HEAD@{20}: checkout: moving from main to main
+[33me4d130b[m HEAD@{21}: Branch: renamed refs/heads/feature/homework_10_1 to refs/heads/main
+[33me4d130b[m HEAD@{23}: commit: first commit
+[33me632758[m HEAD@{24}: checkout: moving from feature/masks-dates-filter to feature/homework_10_1
+[33mb811054[m[33m ([m[1;31morigin/feature/masks-dates-filter[m[33m, [m[1;32mfeature/masks-dates-filter[m[33m)[m HEAD@{25}: commit: feat: add tests for mask_account_card and sort_by_date, update README
+[33m795ca30[m HEAD@{26}: commit: feat: masks, dates, filter with fixtures, parametrization, >80% coverage
+[33me632758[m HEAD@{27}: checkout: moving from feature/homework_10_1 to feature/masks-dates-filter
+[33me632758[m HEAD@{28}: commit: feat: start homework 10.1 — create processing module skeleton
+[33m8a699fe[m HEAD@{29}: commit: feat: add tests for mask_account_card and sort_by_date, update README
+[33mc5885fb[m HEAD@{30}: commit: test: fix flake8 E402, add type annotations, remove .return_value misuse
+[33m5d70043[m HEAD@{31}: commit: feat: add tests for mask_account_card and sort_by_date, update README
+[33mdc5e75c[m HEAD@{32}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mdc5e75c[m HEAD@{33}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mdc5e75c[m HEAD@{34}: commit: feat: add tests for mask_account_card and sort_by_date, update README
+[33mbb8f6da[m HEAD@{35}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mbb8f6da[m HEAD@{36}: commit: feat: add tests for mask_account_card and sort_by_date, update README
+[33mf89eddd[m HEAD@{37}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mf89eddd[m HEAD@{38}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mf89eddd[m HEAD@{39}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mf89eddd[m HEAD@{40}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mf89eddd[m HEAD@{41}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33mf89eddd[m HEAD@{42}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{43}: checkout: moving from develop to develop
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{44}: checkout: moving from feature/homework_10_1 to develop
+[33mf89eddd[m HEAD@{45}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{46}: checkout: moving from feature/homework_10_1 to develop
+[33mf89eddd[m HEAD@{47}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{48}: checkout: moving from feature/homework_10_1 to develop
+[33mf89eddd[m HEAD@{49}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{50}: checkout: moving from feature/homework_10_1 to develop
+[33mf89eddd[m HEAD@{51}: commit (merge): feat: masks module + tests + README
+[33m3a6756c[m HEAD@{52}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{53}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{54}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{55}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{56}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{57}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{58}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{59}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m3a6756c[m HEAD@{60}: commit: test: add parametrized tests for get_mask_card_number with fixtures
+[33m4ee5fd3[m HEAD@{61}: checkout: moving from develop to feature/homework_10_1
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{62}: checkout: moving from develop to develop
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{63}: checkout: moving from develop to develop
+[33m3966695[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/homework_10_1[m[33m, [m[1;31morigin/feature/homework_10_1[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{64}: commit (merge): feat: implement data loading for homework 10.1
+[33mca412d6[m HEAD@{65}: checkout: moving from develop to develop
+[33mca412d6[m HEAD@{66}: checkout: moving from main to develop
+[33m073d42d[m[33m ([m[1;31mgithub/feature/processing[m[33m, [m[1;31mURL/main[m[33m, [m[1;31mURL/HEAD[m[33m, [m[1;32mfeature/processing[m[33m)[m HEAD@{67}: merge origin/develop: Fast-forward
+[33ma53ff85[m HEAD@{68}: checkout: moving from feature/homework_10_1 to main
+[33m4ee5fd3[m HEAD@{69}: checkout: moving from develop to feature/homework_10_1
+[33mca412d6[m HEAD@{70}: commit (amend): Initial commit: project structure and basic files
+[33m073d42d[m[33m ([m[1;31mgithub/feature/processing[m[33m, [m[1;31mURL/main[m[33m, [m[1;31mURL/HEAD[m[33m, [m[1;32mfeature/processing[m[33m)[m HEAD@{71}: checkout: moving from main to develop
+[33ma53ff85[m HEAD@{72}: checkout: moving from develop to main
+[33m073d42d[m[33m ([m[1;31mgithub/feature/processing[m[33m, [m[1;31mURL/main[m[33m, [m[1;31mURL/HEAD[m[33m, [m[1;32mfeature/processing[m[33m)[m HEAD@{73}: checkout: moving from feature/homework_10_1 to develop
+[33m4ee5fd3[m HEAD@{74}: checkout: moving from feature/homework_10_1 to feature/homework_10_1
+[33m4ee5fd3[m HEAD@{75}: commit: feat: implement data loading for homework 10.1
+[33m073d42d[m[33m ([m[1;31mgithub/feature/processing[m[33m, [m[1;31mURL/main[m[33m, [m[1;31mURL/HEAD[m[33m, [m[1;32mfeature/processing[m[33m)[m HEAD@{76}: checkout: moving from develop to feature/homework_10_1
+[33m073d42d[m[33m ([m[1;31mgithub/feature/processing[m[33m, [m[1;31mURL/main[m[33m, [m[1;31mURL/HEAD[m[33m, [m[1;32mfeature/processing[m[33m)[m HEAD@{77}: checkout: moving from feature/processing to develop
+[33m073d42d[m[33m ([m[1;31mgithub/feature/processing[m[33m, [m[1;31mURL/main[m[33m, [m[1;31mURL/HEAD[m[33m, [m[1;32mfeature/processing[m[33m)[m HEAD@{78}: checkout: moving from develop to feature/processing
+[33m073d42d[m[33m ([m[1;31mgithub/feature/processing[m[33m, [m[1;31mURL/main[m[33m, [m[1;31mURL/HEAD[m[33m, [m[1;32mfeature/processing[m[33m)[m HEAD@{79}: commit: Initial commit: project structure and basic files
+[33ma53ff85[m HEAD@{80}: checkout: moving from main to develop
+[33ma53ff85[m HEAD@{81}: commit: init
+[33mb5e0ab2[m HEAD@{82}: commit: add poetry.lock to ignore
+[33m4be5eb7[m HEAD@{83}: commit: add all project
+[33m1b3854c[m HEAD@{84}: commit: add poetry.toml
+[33mb32b69f[m HEAD@{85}: commit: add file1.py and file2.py
+[33m27d4dee[m HEAD@{86}: commit (initial): init repozetory

@@ -61,5 +61,3 @@ def get_date(date_input: Optional[str]) -> str:
             continue
 
     raise ValueError(f"Unable to parse date: {date_input!r}")
-
-

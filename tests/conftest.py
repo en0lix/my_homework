@@ -1,3 +1,18 @@
+import sys
+from pathlib import Path
+
+root_dir = Path(__file__).resolve().parent.parent  # это будет PythonProject5
+src_dir = root_dir / "src"
+
+if str(src_dir) not in sys.path:
+    sys.path.insert(0, str(src_dir))
+
+import sys
+from pathlib import Path
+
+root_dir = Path(__file__).resolve().parent.parent  # поднимается на 2 уровня вверх: из tests → в корень проекта
+if str(root_dir) not in sys.path:
+    sys.path.insert(0, str(root_dir))
 from datetime import date
 
 import pytest

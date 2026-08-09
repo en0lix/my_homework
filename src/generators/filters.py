@@ -1,3 +1,18 @@
+def filter_by_currency(data, currency):
+    # временная реализация, потом допишешь логику
+    return [item for item in data if item.get("currency") == currency]
+
+def filter_by_currency(items, currency):
+    """Заглушка для тестов — вернёт все элементы, пока не реализуешь логику."""
+    return [item for item in items if item.get("currency") == currency]
+
+def filter_by_currency(records, currency):
+    return [r for r in records if r.get("currency") == currency]
+
+def filter_by_currency(items, currency):
+    # твоя реализация
+    return [item for item in items if item.get("currency") == currency]
+
 def filter_by_currency(transactions, currency_code):
     """
     Генератор: возвращает транзакции, где currency.code == currency_code.

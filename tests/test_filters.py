@@ -1,4 +1,4 @@
-from generators import filter_by_currency
+from src.generators import filter_by_currency
 
 
 def test_filter_by_currency_usd():

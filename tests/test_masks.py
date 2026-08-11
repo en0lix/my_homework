@@ -72,8 +72,6 @@ class TestMasks:
             mask_account_card(value)
 
 
-import pytest
-
 from src.masks import get_mask_account, get_mask_card_number, mask_account_card
 
 
@@ -105,3 +103,24 @@ class TestMasks:
     def test_mask_account_card_invalid_raises(self, invalid_card_or_account_input):
         with pytest.raises(ValueError):
             mask_account_card(invalid_card_or_account_input)
+
+
+
+            from masks import get_mask_card_number
+
+            @pytest.mark.parametrize(
+                "card_number,expected_error",
+                [
+                    (None, ValueError),
+                    ("", ValueError),
+                    ("   ", ValueError),
+                    ("123", ValueError),  # если по логике нужен минимум 16
+                ],
+            )
+            def test_get_mask_card_number_invalid(card_number, expected_error):
+                with pytest.raises(expected_error):
+                    get_mask_card_number(card_number)
+
+            def test_get_mask_card_number_valid():
+                assert get_mask_card_number("1234567890123456") == "**** **** **** 3456"
+

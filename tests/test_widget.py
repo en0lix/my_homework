@@ -27,7 +27,8 @@ from src.widget import mask_account_card
         "empty_string",
         "none_input",
     ],
-)
+
+
 def test_mask_account_card(input_value, expected_type, expected_result):
     if expected_result is None:
         # Для некорректных входных данных ожидаем ошибку
@@ -69,3 +70,29 @@ def test_mask_account_card(input_value, expected_type, expected_result):
         def test_get_date(input_str, expected_output):
             result = get_date(input_str)
             assert result == expected_output
+
+
+
+
+import pytest
+from widget import validate_widget_data
+
+@pytest.mark.parametrize(
+    "data,expected_error",
+    [
+        (None, ValueError),
+        ({"title": "", "value": "123"}, ValueError),
+        ({"title": "   ", "value": "123"}, ValueError),
+        ({"value": "123"}, ValueError),  # нет title
+        ({"title": "Price", "value": ""}, ValueError),
+    ],
+)
+def test_validate_widget_data_invalid(data, expected_error):
+    with pytest.raises(expected_error):
+        validate_widget_data(data)
+
+
+def test_validate_widget_data_valid():
+    data = {"title": "Price", "value": "100"}
+    result = validate_widget_data(data)
+    assert result == data

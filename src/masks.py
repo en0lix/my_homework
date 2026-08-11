@@ -1,3 +1,13 @@
+def validate_input(value, param_name: str = "значение"):
+    if value is None:
+        raise ValueError(f"{param_name} не может быть None")
+    if not isinstance(value, str):
+        raise ValueError(f"{param_name} должно быть строкой")
+    stripped = value.strip()
+    if stripped == "":
+        raise ValueError(f"{param_name} не может быть пустой строкой или состоять только из пробелов")
+    return stripped
+
 def get_mask_account(account: int | str) -> str:
     """Функция маскировки банковского счета"""
     account = str(account)

@@ -1,62 +1,56 @@
-from src.generators import filter_by_currency
-
-
-def test_filter_by_currency_usd():
-    transactions = [
-        {"id": 1, "operationAmount": {"currency": {"code": "USD"}}},
-        {"id": 2, "operationAmount": {"currency": {"code": "RUB"}}},
-        {"id": 3, "operationAmount": {"currency": {"code": "USD"}}},
-    ]
-    usd_iter = filter_by_currency(transactions, "USD")
-    assert next(usd_iter)["id"] == 1
-    assert next(usd_iter)["id"] == 3
-
-
-def test_filter_by_currency_empty():
-    transactions = [{"id": 1, "operationAmount": {"currency": {"code": "RUB"}}}]
-    usd_iter = filter_by_currency(transactions, "USD")
-    try:
-        next(usd_iter)
-        assert False, "Должен быть StopIteration"
-    except StopIteration:
-        pass
-
-
 import pytest
 
-from src.masks import card_number_generator
+from generators import filter_by_currency
+
+
+@pytest.fixture
+def sample_transactions():
+    return [
+        {"id": 1, "amount": 100, "currency": "USD"},
+        {"id": 2, "amount": 200, "currency": "rub"},
+        {"id": 3, "amount": 300, "currency": "EUR"},
+        {"id": 4, "amount": 400, "currency": "usd"},
+        {"id": 5, "amount": 500},  # нет валюты
+    ]
+
+
+def test_filter_by_currency_usd(sample_transactions):
+    result = filter_by_currency(sample_transactions, "USD")
+    assert len(result) == 2
+    ids = {t["id"] for t in result}
+    assert ids == {1, 4}
+
+
+def test_filter_by_currency_rub_case_insensitive(sample_transactions):
+    result = filter_by_currency(sample_transactions, "rub")
+    assert len(result) == 1
+    assert result[0]["id"] == 2
 
 
 @pytest.mark.parametrize(
-    "length,expected_length",
+    "currency, expected_ids",
     [
-        (13, 13),
-        (14, 14),
-        (15, 15),
-        (16, 16),
-        (18, 18),
-        (19, 19),
+        ("EUR", {3}),
+        ("eur", {3}),
+        ("USD", {1, 4}),
+        ("RUB", {2}),
     ],
 )
-def test_card_number_generator_length(length, expected_length):
-    number = card_number_generator(length)
-    assert isinstance(number, str)
-    assert len(number) == expected_length
-    assert number.isdigit()
+def test_filter_by_currency_parametrized(sample_transactions, currency, expected_ids):
+    result = filter_by_currency(sample_transactions, currency)
+    ids = {t["id"] for t in result}
+    assert ids == expected_ids
 
 
-def test_card_number_generator_default():
-    number = card_number_generator()
-    assert len(number) == 16
-    assert number.isdigit()
+def test_filter_by_currency_empty_list():
+    assert filter_by_currency([], "USD") == []
 
 
-@pytest.mark.parametrize("length", [12, 20])
-def test_card_number_generator_invalid_length_raises(length):
-    # Если твоя функция должна выбрасывать ошибку при неподходящей длине — раскомментируй:
-    # with pytest.raises(ValueError):
-    #     card_number_generator(length)
+def test_filter_by_currency_invalid_type_transactions():
+    with pytest.raises(TypeError):
+        filter_by_currency("not a list", "USD")  # type: ignore
 
-    # Если она просто возвращает строку любой длины — оставь как есть, главное, что проверили поведение
-    number = card_number_generator(length)
-    assert len(number) == length
+
+def test_filter_by_currency_invalid_type_currency():
+    with pytest.raises(TypeError):
+        filter_by_currency([{"id": 1, "currency": "USD"}], 123)  # type: ignore

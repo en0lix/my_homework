@@ -1,17 +1,32 @@
+from src.generators import filter_by_currency
+def filter_by_currency(records, currency):
+    """Возвращает записи только для указанной валюты."""
+    return [r for r in records if r.get("currency") == currency]
+
+
+def filter_by_currency(records, currency):
+    """Возвращает записи, где currency совпадает с заданным."""
+    return [r for r in records if r.get("currency") == currency]
+
+
 def filter_by_currency(data, currency):
     # временная реализация, потом допишешь логику
     return [item for item in data if item.get("currency") == currency]
+
 
 def filter_by_currency(items, currency):
     """Заглушка для тестов — вернёт все элементы, пока не реализуешь логику."""
     return [item for item in items if item.get("currency") == currency]
 
+
 def filter_by_currency(records, currency):
     return [r for r in records if r.get("currency") == currency]
+
 
 def filter_by_currency(items, currency):
     # твоя реализация
     return [item for item in items if item.get("currency") == currency]
+
 
 def filter_by_currency(transactions, currency_code):
     """
@@ -28,7 +43,7 @@ def filter_by_currency(transactions, currency_code):
             yield transaction
 
 
-from generators import filter_by_currency
+from src.generators import filter_currency
 
 transactions = [
     {
@@ -84,8 +99,6 @@ def transaction_descriptions(transactions):
         # Если тип известен — берём из словаря, иначе возвращаем заглушку
         yield type_to_description.get(txn_type, f"Неизвестная операция ({txn_type})")
 
-
-# Пример использования
 if __name__ == "__main__":
     transactions = [
         {"type": "org_transfer"},
@@ -124,3 +137,22 @@ if __name__ == "__main__":
             s = f"{number:016d}"
             # Разбиваем на группы по 4 цифры через пробел
             yield f"{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}"
+
+            def filter_by_currency(transactions, currency_code):
+                """
+                Возвращает итератор по транзакциям, где валюта совпадает с заданной.
+
+                :param transactions: список словарей с данными транзакций
+                :param currency_code: код валюты (например, "USD")
+                :return: итератор (generator)
+                """
+                for transaction in transactions:
+                    amount = transaction.get("operationAmount", {})
+                    currency = amount.get("currency", {})
+                    if currency.get("code") == currency_code:
+                        yield transaction
+
+
+def filter_by_currency(transactions, currency):
+    """Возвращает транзакции указанной валюты."""
+    return [t for t in transactions if t.get("currency") == currency]

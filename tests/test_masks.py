@@ -104,8 +104,6 @@ class TestMasks:
         with pytest.raises(ValueError):
             mask_account_card(invalid_card_or_account_input)
 
-
-
             from masks import get_mask_card_number
 
             @pytest.mark.parametrize(
@@ -123,4 +121,45 @@ class TestMasks:
 
             def test_get_mask_card_number_valid():
                 assert get_mask_card_number("1234567890123456") == "**** **** **** 3456"
+                import pytest
 
+                from src.widget import mask_account_card
+
+                @pytest.mark.parametrize(
+                    "input_value,expected_result",
+                    [
+                        # Карта: 16 цифр → маска карты
+                        ("4111111111111111", "4111 11** **** 1111"),
+                        # Счет: длинная строка цифр → маска счета
+                        ("12345678901234567890", "12** ************7890"),
+                        # Строка с текстом и цифрами (распознаем тип по содержимому)
+                        ("Счет №12345678901234567890", "12** ************7890"),
+                        ("Карта 4111111111111111", "4111 11** **** 1111"),
+                    ],
+                    ids=[
+                        "card_16_digits",
+                        "account_long_number",
+                        "account_with_prefix",
+                        "card_with_prefix",
+                    ],
+                )
+                def test_mask_account_card_valid(input_value, expected_result):
+                    result = mask_account_card(input_value)
+                    assert result == expected_result
+
+                @pytest.mark.parametrize(
+                    "input_value",
+                    [
+                        "123",
+                        "",
+                        None,
+                    ],
+                    ids=[
+                        "short_invalid",
+                        "empty_string",
+                        "none_input",
+                    ],
+                )
+                def test_mask_account_card_invalid(input_value):
+                    with pytest.raises(ValueError):
+                        mask_account_card(input_value)

@@ -8,6 +8,7 @@ def validate_input(value, param_name: str = "значение"):
         raise ValueError(f"{param_name} не может быть пустой строкой или состоять только из пробелов")
     return stripped
 
+
 def get_mask_account(account: int | str) -> str:
     """Функция маскировки банковского счета"""
     account = str(account)

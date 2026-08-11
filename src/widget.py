@@ -1,4 +1,10 @@
-import pytest
+# src/widget.py
+def validate_widget_data(data):
+    # Пример простой валидации: проверяем, что есть обязательные поля
+    required_keys = {"id", "name", "value"}
+    if not isinstance(data, dict):
+        return False
+    return required_keys.issubset(data.keys())
 
 
 def get_date(date: str) -> str:
@@ -23,8 +29,6 @@ def get_mask_account_card(account_card: str) -> str:
 
 
 from typing import Optional
-
-from .masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(value: Optional[str]) -> str:

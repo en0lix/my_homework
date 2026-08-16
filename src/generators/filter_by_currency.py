@@ -1,3 +1,7 @@
+def card_number_generator():
+    """Заглушка для тестов — вернёт пример номера карты."""
+    return "4111111111111111"
+
 def filter_by_currency(transactions, currency):
     """
     Возвращает список транзакций, где валюта совпадает с указанной.
@@ -17,7 +21,8 @@ def filter_by_currency(transactions, currency):
     """
     return [t for t in transactions if t.get("currency") == currency]
 
-from typing import Iterable, Iterator, Dict, Any, Optional
+
+from typing import Any, Dict, Iterable, Iterator, Optional
 
 
 def filter_by_currency(transactions: Iterable[Dict[str, Any]], currency: str) -> Iterator[Dict[str, Any]]:

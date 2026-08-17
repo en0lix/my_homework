@@ -1,7 +1,3 @@
-def card_number_generator():
-    """Заглушка для тестов — вернёт пример номера карты."""
-    return "4111111111111111"
-
 def filter_by_currency(transactions, currency):
     """
     Возвращает список транзакций, где валюта совпадает с указанной.

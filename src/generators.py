@@ -56,3 +56,30 @@ def card_number_generator(start: int, end: int) -> Iterator[str]:
         # Форматируем как 16 цифр с ведущими нулями, затем разбиваем на группы по 4
         s = f"{number:016d}"
         yield f"{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}"
+
+
+from typing import Any, Dict, Iterable, Iterator
+
+
+def filter_by_currency(transactions: Iterable[Dict[str, Any]], currency: str) -> Iterator[Dict[str, Any]]:
+    for t in transactions:
+        amount = t.get("operationAmount", {})
+        curr = amount.get("currency", {})
+        code = curr.get("code")
+        if code == currency:
+            yield t
+
+
+def transaction_descriptions(transactions: Iterable[Dict[str, Any]]) -> Iterator[str]:
+    for t in transactions:
+        yield t.get("description", "")
+
+
+def card_number_generator(start: int, end: int) -> Iterator[str]:
+    if start > end or start < 1 or end > 9999_9999_9999_9999:
+        return
+    for number in range(start, end + 1):
+        s = f"{number:016d}"
+        yield f"{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}"
+
+

@@ -1510,3 +1510,5 @@ def test_widget_all_remaining_lines():
     assert mask_account_card("Visa 1234.5678.9012.3456") == "1234 56** **** 3456"
     assert mask_account_card("Visa 1234/5678/9012/3456") == "1234 56** **** 3456"
     assert mask_account_card("Visa 1234 5678 9012 3456") == "1234 56** **** 3456"
+
+#проверка отправки на гидхаб

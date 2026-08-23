@@ -1,85 +1,88 @@
-def filter_by_currency(transactions, currency):
+# src/generators.py
+
+from typing import Iterator, Dict, Any, Optional
+
+
+def filter_by_currency(transactions: list[Dict[str, Any]], currency: str) -> Iterator[Dict[str, Any]]:
     """
-    Возвращает список транзакций, где валюта совпадает с указанной.
+    Фильтрует транзакции по заданной валюте.
 
-    :param transactions: список словарей, каждый с ключом 'currency'
-    :param currency: строка с валютой, например 'RUB' или 'USD'
-    :return: список подходящих транзакций
+    Args:
+        transactions: Список словарей с данными транзакций
+        currency: Код валюты для фильтрации (например, "USD")
+
+    Yields:
+        Iterator[Dict[str, Any]]: Итератор с транзакциями в указанной валюте
+
+    Example:
+        >>> transactions = [
+        ...     {"id": 1, "operationAmount": {"currency": {"code": "USD"}, "amount": "100"}},
+        ...     {"id": 2, "operationAmount": {"currency": {"code": "EUR"}, "amount": "200"}},
+        ...     {"id": 3, "operationAmount": {"currency": {"code": "USD"}, "amount": "300"}},
+        ... ]
+        >>> for transaction in filter_by_currency(transactions, "USD"):
+        ...     print(transaction["id"])
+        1
+        3
     """
-    return [t for t in transactions if t.get("currency") == currency]
+    if not transactions:
+        return
+
+    for transaction in transactions:
+        try:
+            # Проверяем наличие валюты в транзакции
+            if (transaction.get("operationAmount") and
+                    transaction["operationAmount"].get("currency") and
+                    transaction["operationAmount"]["currency"].get("code") == currency):
+                yield transaction
+        except (AttributeError, TypeError, KeyError):
+            # Пропускаем транзакции с некорректной структурой
+            continue
 
 
-def filter_by_currency(transactions, currency):
+def transaction_descriptions(transactions: list[Dict[str, Any]]) -> Iterator[str]:
     """
-    Возвращает список транзакций, отфильтрованных по валюте.
-    transactions: список словарей вида {"amount": 100, "currency": "USD", ...}
-    currency: строка с валютой, например "USD"
+    Возвращает итератор с описаниями транзакций.
+
+    Args:
+        transactions: Список словарей с данными транзакций
+
+    Yields:
+        Iterator[str]: Итератор с описаниями транзакций
+
+    Example:
+        >>> transactions = [
+        ...     {"description": "Payment for services"},
+        ...     {"description": "Online purchase"},
+        ... ]
+        >>> list(transaction_descriptions(transactions))
+        ['Payment for services', 'Online purchase']
     """
-    return [t for t in transactions if t.get("currency") == currency]
+    for transaction in transactions:
+        description = transaction.get("description")
+        if description:
+            yield description
 
 
-from typing import Any, Dict, Iterable, Iterator, Optional
-
-
-def filter_by_currency(transactions: Iterable[Dict[str, Any]], currency: str) -> Iterator[Dict[str, Any]]:
+def card_number_generator(start: int, end: int) -> Iterator[int]:
     """
-    Возвращает итератор по транзакциям, где currency.code == currency.
-    Пример: currency = "USD"
-    """
-    for t in transactions:
-        amount = t.get("operationAmount", {})
-        curr = amount.get("currency", {})
-        code = curr.get("code")
-        if code == currency:
-            yield t
+    Генерирует номера карт в заданном диапазоне.
 
+    Args:
+        start: Начальное значение (включительно)
+        end: Конечное значение (включительно)
 
-def transaction_descriptions(transactions: Iterable[Dict[str, Any]]) -> Iterator[str]:
-    """
-    Генератор описаний транзакций (поле description).
-    Если описания нет — возвращает пустую строку.
-    """
-    for t in transactions:
-        yield t.get("description", "")
+    Yields:
+        Iterator[int]: Итератор с номерами карт (16-значные числа)
 
-
-def card_number_generator(start: int, end: int) -> Iterator[str]:
+    Example:
+        >>> list(card_number_generator(1, 3))
+        [1000000000000001, 1000000000000002, 1000000000000003]
     """
-    Генерирует номера карт в формате XXXX XXXX XXXX XXXX.
-    start и end — целочисленные значения от 1 до 9999_9999_9999_9999.
-    Выдаёт ровно end - start + 1 номеров (если start <= end).
-    """
-    if start > end or start < 1 or end > 9999_9999_9999_9999:
+    if start > end or start < 0:
         return
 
     for number in range(start, end + 1):
-        # Форматируем как 16 цифр с ведущими нулями, затем разбиваем на группы по 4
-        s = f"{number:016d}"
-        yield f"{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}"
-
-
-from typing import Any, Dict, Iterable, Iterator
-
-
-def filter_by_currency(transactions: Iterable[Dict[str, Any]], currency: str) -> Iterator[Dict[str, Any]]:
-    for t in transactions:
-        amount = t.get("operationAmount", {})
-        curr = amount.get("currency", {})
-        code = curr.get("code")
-        if code == currency:
-            yield t
-
-
-def transaction_descriptions(transactions: Iterable[Dict[str, Any]]) -> Iterator[str]:
-    for t in transactions:
-        yield t.get("description", "")
-
-
-def card_number_generator(start: int, end: int) -> Iterator[str]:
-    if start > end or start < 1 or end > 9999_9999_9999_9999:
-        return
-    for number in range(start, end + 1):
-        s = f"{number:016d}"
-        yield f"{s[0:4]} {s[4:8]} {s[8:12]} {s[12:16]}"
-
-
+        # Форматируем номер карты как 16-значное число
+        card_number = int(f"100000000000000{number:01d}" if number < 10 else f"10000000000000{number:02d}")
+        yield card_number

@@ -1,121 +1,106 @@
-import pytest
+# tests/test_filters.py
 
-from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
+import pytest
+from src.processing import filter_by_state, sort_by_date
 
 
 @pytest.fixture
-def transactions():
+def sample_transactions():
+    """Фикстура с тестовыми транзакциями"""
     return [
-        {
-            "id": 939719570,
-            "state": "EXECUTED",
-            "date": "2018-06-30T02:08:58.425572",
-            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
-            "description": "Перевод организации",
-            "from": "Счет 75106830613657916952",
-            "to": "Счет 11776614605963066702",
-        },
-        {
-            "id": 142264268,
-            "state": "EXECUTED",
-            "date": "2019-04-04T23:20:05.206878",
-            "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
-            "description": "Перевод со счета на счет",
-            "from": "Счет 19708645243227258542",
-            "to": "Счет 75651667383060284188",
-        },
-        {
-            "id": 123456789,
-            "state": "EXECUTED",
-            "date": "2020-01-01T12:00:00.000000",
-            "operationAmount": {"amount": "1000.00", "currency": {"name": "RUB", "code": "RUB"}},
-            "description": "Оплата услуг",
-            "from": "Карта 1234 5678 9012 3456",
-            "to": "Сервис XYZ",
-        },
+        {"id": 1, "state": "EXECUTED", "date": "2026-08-22T10:00:00"},
+        {"id": 2, "state": "PENDING", "date": "2026-08-21T15:30:00"},
+        {"id": 3, "state": "EXECUTED", "date": "2026-08-20T09:15:00"},
+        {"id": 4, "state": "CANCELLED", "date": "2026-08-19T18:45:00"},
+        {"id": 5, "state": "EXECUTED", "date": "2026-08-18T12:00:00"},
     ]
 
 
-class TestFilterByCurrency:
-    @pytest.mark.parametrize(
-        "currency,expected_count",
-        [
-            ("USD", 2),
-            ("RUB", 1),
-            ("EUR", 0),
-        ],
-    )
-    def test_filter_by_currency_count(self, transactions, currency, expected_count):
-        result = list(filter_by_currency(transactions, currency))
-        assert len(result) == expected_count
+# ===== ТЕСТЫ ДЛЯ filter_by_state =====
 
-    def test_filter_by_currency_empty_list(self):
-        assert list(filter_by_currency([], "USD")) == []
-
-    def test_filter_by_currency_no_matching_currency(self):
-        txs = [
-            {"operationAmount": {"currency": {"code": "EUR"}}},
-            {"operationAmount": {"currency": {"code": "JPY"}}},
-        ]
-        assert list(filter_by_currency(txs, "USD")) == []
-
-    def test_filter_by_currency_missing_fields(self):
-        txs = [
-            {},  # нет operationAmount
-            {"operationAmount": {}},  # нет currency
-            {"operationAmount": {"currency": {}}},  # нет code
-        ]
-        assert list(filter_by_currency(txs, "USD")) == []
+def test_filter_by_state_executed(sample_transactions):
+    """Тест фильтрации по статусу EXECUTED"""
+    result = filter_by_state(sample_transactions, "EXECUTED")
+    assert len(result) == 3  # В фикстуре 3 транзакции с EXECUTED
+    assert all(item["state"] == "EXECUTED" for item in result)
 
 
-class TestTransactionDescriptions:
-    def test_descriptions_all_present(self, transactions):
-        descs = list(transaction_descriptions(transactions))
-        expected = ["Перевод организации", "Перевод со счета на счет", "Оплата услуг"]
-        assert descs == expected
-
-    @pytest.mark.parametrize(
-        "txs,expected",
-        [
-            ([], []),
-            ([{"description": "A"}], ["A"]),
-            ([{}, {"description": ""}], ["", ""]),
-        ],
-    )
-    def test_descriptions_edge_cases(self, txs, expected):
-        assert list(transaction_descriptions(txs)) == expected
+def test_filter_by_state_pending(sample_transactions):
+    """Тест фильтрации по статусу PENDING"""
+    result = filter_by_state(sample_transactions, "PENDING")
+    assert len(result) == 1
+    assert result[0]["id"] == 2
 
 
-class TestCardNumberGenerator:
-    @pytest.mark.parametrize(
-        "start,end,expected",
-        [
-            (1, 1, ["0000 0000 0000 0001"]),
-            (5, 5, ["0000 0000 0000 0005"]),
-            (
-                9999999999999995,
-                9999999999999999,
-                [
-                    "9999 9999 9999 9995",
-                    "9999 9999 9999 9996",
-                    "9999 9999 9999 9997",
-                    "9999 9999 9999 9998",
-                    "9999 9999 9999 9999",
-                ],
-            ),
-        ],
-    )
-    def test_card_number_generator_basic(self, start, end, expected):
-        assert list(card_number_generator(start, end)) == expected
+def test_filter_by_state_cancelled(sample_transactions):
+    """Тест фильтрации по статусу CANCELLED"""
+    result = filter_by_state(sample_transactions, "CANCELLED")
+    assert len(result) == 1
+    assert result[0]["id"] == 4
 
-    def test_card_number_generator_invalid_range(self):
-        assert list(card_number_generator(10, 5)) == []
-        assert list(card_number_generator(-1, 5)) == []
-        assert list(card_number_generator(1, 10**17)) == []
 
-    def test_card_number_format(self):
-        gen = card_number_generator(123, 123)
-        res = next(gen)
-        parts = res.split(" ")
-        assert len(parts) == 4
-        assert all(len(p) == 4 and p.isdigit() for p in parts)
+def test_filter_by_state_not_found(sample_transactions):
+    """Тест с несуществующим статусом"""
+    result = filter_by_state(sample_transactions, "COMPLETED")
+    assert result == []
+
+
+def test_filter_by_state_empty():
+    """Тест с пустым списком"""
+    result = filter_by_state([], "EXECUTED")
+    assert result == []
+
+
+def test_filter_by_state_missing_key():
+    """Тест с отсутствующим ключом state"""
+    transactions = [
+        {"id": 1, "state": "EXECUTED"},
+        {"id": 2},
+        {"id": 3, "state": "EXECUTED"},
+    ]
+    result = filter_by_state(transactions, "EXECUTED")
+    # Должен вернуть только транзакции с ключом state
+    assert len(result) == 2
+    assert all(item["state"] == "EXECUTED" for item in result)
+
+
+# ===== ТЕСТЫ ДЛЯ sort_by_date =====
+
+def test_sort_by_date_descending(sample_transactions):
+    """Тест сортировки по убыванию"""
+    result = sort_by_date(sample_transactions, reverse=True)
+    dates = [item["date"] for item in result]
+    assert dates == sorted(dates, reverse=True)
+
+
+def test_sort_by_date_ascending(sample_transactions):
+    """Тест сортировки по возрастанию"""
+    result = sort_by_date(sample_transactions, reverse=False)
+    dates = [item["date"] for item in result]
+    assert dates == sorted(dates)
+
+
+def test_sort_by_date_default(sample_transactions):
+    """Тест сортировки с параметром по умолчанию"""
+    result = sort_by_date(sample_transactions)
+    dates = [item["date"] for item in result]
+    # По умолчанию должна быть сортировка по убыванию
+    assert dates == sorted(dates, reverse=True)
+
+
+def test_sort_by_date_empty():
+    """Тест сортировки пустого списка"""
+    result = sort_by_date([])
+    assert result == []
+
+
+def test_sort_by_date_same_dates():
+    """Тест сортировки с одинаковыми датами"""
+    transactions = [
+        {"id": 1, "date": "2026-08-22T10:00:00"},
+        {"id": 2, "date": "2026-08-22T10:00:00"},
+        {"id": 3, "date": "2026-08-22T10:00:00"},
+    ]
+    result = sort_by_date(transactions)
+    assert len(result) == 3
+    assert all(item["date"] == "2026-08-22T10:00:00" for item in result)

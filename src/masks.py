@@ -1,25 +1,34 @@
-def get_mask_account(account: int | str) -> str:
-    """Функция маскировки банковского счета"""
-    account = str(account)
-    if len(account) < 4:
-        raise ValueError("Неправильно")
-    mask = "**"
-    part = account[-4:]
-    return mask + part
+from typing import Optional
 
 
-def get_mask_card_number(card_number: int | str) -> str:
-    """Функция маскировки номера карты"""
-    card_number = str(card_number)
-    if len(card_number) != 16:
-        raise ValueError("Неправильно")
-    block_1 = card_number[:4]
-    block_2 = card_number[4:6] + "**"
-    block_3 = "****"
-    block_4 = card_number[12:]
-    return block_1 + " " + block_2 + " " + block_3 + " " + block_4
+def get_mask_card_number(card_number: Optional[str]) -> str:
+    """Маскирует номер карты"""
+    if not card_number:
+        return ""
+
+    # Удаляем пробелы и дефисы
+    cleaned = ''.join(c for c in str(card_number) if c.isdigit())
+
+    if len(cleaned) < 4:
+        return str(card_number)
+
+    if len(cleaned) >= 16:
+        # Маскируем: первые 6 цифр, затем 4 звезды, последние 4 цифры
+        return f"{cleaned[:4]} {cleaned[4:6]}** **** {cleaned[-4:]}"
+    elif len(cleaned) >= 14:
+        return f"{cleaned[:4]} {cleaned[4:6]}** **** {cleaned[-4:]}"
+    else:
+        return str(card_number)
 
 
-if __name__ == "__main__":
-    account = 7365410843013587
-    print(get_mask_card_number(account))
+def get_mask_account(account_number: Optional[str]) -> str:
+    """Маскирует номер счета"""
+    if not account_number:
+        return ""
+
+    cleaned = ''.join(c for c in str(account_number) if c.isdigit())
+
+    if len(cleaned) < 4:
+        return str(account_number)
+
+    return f"**{cleaned[-4:]}"

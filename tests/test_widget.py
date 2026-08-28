@@ -1,8 +1,9 @@
 import pytest
-from src.widget import mask_account_card, get_date
 
+from src.widget import get_date, mask_account_card
 
 # ==================== Тесты для mask_account_card ====================
+
 
 def test_mask_account_card_card():
     """Тест маскирования карты"""
@@ -69,6 +70,7 @@ def test_mask_account_card_different_types():
 
 
 # ==================== Тесты для get_date ====================
+
 
 def test_get_date_iso_format():
     """Тест ISO формата"""
@@ -158,7 +160,8 @@ def test_get_date_with_text():
         assert result1 is None or isinstance(result1, str)
         assert result2 is None or isinstance(result2, str)
         import pytest
-        from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
+
+        from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
         # ==================== Тесты для filter_by_currency ====================
 
@@ -358,7 +361,8 @@ def test_get_date_with_text():
                     # Может вернуть None или преобразовать
                     assert result is None or isinstance(result, str)
                     import pytest
-                    from src.widget import mask_account_card, get_date
+
+                    from src.widget import get_date, mask_account_card
 
                     # Существующие тесты...
 
@@ -435,10 +439,12 @@ def test_get_date_with_text():
 
 
 import pytest
-from src.widget import mask_account_card, get_date as widget_get_date
 
+from src.widget import get_date as widget_get_date
+from src.widget import mask_account_card
 
 # ==================== Тесты для mask_account_card ====================
+
 
 def test_mask_account_card_card():
     """Тест маскирования карты"""
@@ -533,6 +539,7 @@ def test_mask_account_card_with_different_separators():
 
 # ==================== Тесты для get_date ====================
 
+
 def test_widget_get_date_iso_format():
     """Тест ISO формата"""
     assert widget_get_date("2026-08-22") == "2026-08-22"
@@ -585,7 +592,8 @@ def test_widget_get_date_edge_cases():
     assert result2 is None or isinstance(result2, str)
     assert result3 is None or isinstance(result3, str)
     import pytest
-    from src.widget import mask_account_card, get_date
+
+    from src.widget import get_date, mask_account_card
 
     # Существующие тесты...
 
@@ -677,12 +685,13 @@ def test_widget_get_date_edge_cases():
 
 
 import pytest
-from src.widget import mask_account_card, get_date
 
+from src.widget import get_date, mask_account_card
 
 # Существующие тесты...
 
 # ===== ДОПОЛНИТЕЛЬНЫЕ ТЕСТЫ ДЛЯ ПОВЫШЕНИЯ ПОКРЫТИЯ =====
+
 
 def test_mask_account_card_comprehensive():
     """Комплексный тест маскирования карт и счетов"""
@@ -713,12 +722,13 @@ def test_mask_account_card_comprehensive():
 
 
 import pytest
-from src.widget import mask_account_card, get_date
 
+from src.widget import get_date, mask_account_card
 
 # Существующие тесты...
 
 # ===== ИСПРАВЛЕННЫЙ ТЕСТ =====
+
 
 def test_mask_account_card_comprehensive():
     """Комплексный тест маскирования карт и счетов"""
@@ -807,6 +817,7 @@ def test_get_mask_account_card():
 
 # Добавьте в tests/test_widget.py
 
+
 def test_mask_account_card_universal():
     """Тест универсальной маскировки карт и счетов"""
     from src.widget import mask_account_card
@@ -875,6 +886,7 @@ def test_get_date_invalid():
 
 # Добавьте в tests/test_widget.py
 
+
 def test_mask_account_card_universal():
     """Тест универсальной маскировки карт и счетов"""
     from src.widget import mask_account_card
@@ -942,12 +954,13 @@ def test_get_date_invalid():
 
 
 import pytest
-from src.widget import mask_account_card, get_date
 
+from src.widget import get_date, mask_account_card
 
 # Существующие тесты...
 
 # ===== ИСПРАВЛЕННЫЕ ТЕСТЫ =====
+
 
 def test_validate_widget_data():
     """Тест функции validate_widget_data"""
@@ -994,7 +1007,9 @@ def test_get_mask_account_card():
     result = get_mask_account_card("   ")
     assert result == "" or result == "   " or result is None
 
+
 # Добавьте в tests/test_widget.py
+
 
 def test_mask_account_card_with_different_formats():
     """Тест с разными форматами ввода"""
@@ -1023,12 +1038,13 @@ def test_mask_account_card_with_different_formats():
 
 
 import pytest
-from src.widget import mask_account_card, get_date
 
+from src.widget import get_date, mask_account_card
 
 # Существующие тесты...
 
 # ===== ИСПРАВЛЕННЫЕ ТЕСТЫ =====
+
 
 def test_validate_widget_data():
     """Тест функции validate_widget_data"""
@@ -1092,6 +1108,7 @@ def test_get_mask_account_card():
 
 # Добавьте в tests/test_widget.py
 
+
 def test_mask_account_card_with_none():
     """Тест маскирования с None"""
     # Проверяем, что функция обрабатывает None
@@ -1113,6 +1130,7 @@ def test_get_date_with_none():
 
 
 # Добавьте в tests/test_widget.py
+
 
 def test_validate_widget_data_comprehensive():
     """Комплексный тест validate_widget_data"""
@@ -1165,6 +1183,7 @@ def test_get_mask_account_card():
 
 # Добавьте в tests/test_widget.py
 
+
 def test_mask_account_card_edge_cases_comprehensive():
     """Комплексный тест граничных случаев mask_account_card"""
     # Тест с None
@@ -1202,7 +1221,9 @@ def test_get_date_edge_cases_comprehensive():
     result = get_date("invalid")
     assert result is None or result == "invalid"
 
+
 # Добавьте в tests/test_widget.py
+
 
 def test_mask_account_card_account_formats():
     """Тест разных форматов счетов - строки 123-125, 130-131"""
@@ -1254,6 +1275,7 @@ def test_get_mask_account_card():
 
 
 # Добавьте в tests/test_widget.py
+
 
 def test_widget_edge_cases():
     """Тест граничных случаев widget - строки 4-7, 12-13, 101, 104-105"""
@@ -1307,6 +1329,7 @@ def test_mask_account_card_account_formats():
 
 # Добавьте в tests/test_widget.py
 
+
 def test_widget_validate_data_direct():
     """Прямой тест validate_widget_data - строки 101, 104-105"""
     from src.widget import validate_widget_data
@@ -1352,6 +1375,7 @@ def test_mask_account_card_edge_direct():
 
 
 # Добавьте в tests/test_widget.py
+
 
 def test_validate_widget_data_full_coverage():
     """Полное покрытие validate_widget_data"""
@@ -1402,12 +1426,8 @@ def test_widget_get_date_full_coverage():
 
 def test_widget_test_functions_coverage():
     """Покрытие тестовых функций в widget"""
-    from src.widget import (
-        test_mask_account_card_universal,
-        test_mask_account_card_invalid,
-        test_get_date_valid,
-        test_get_date_invalid
-    )
+    from src.widget import (test_get_date_invalid, test_get_date_valid, test_mask_account_card_invalid,
+                            test_mask_account_card_universal)
 
     # Вызываем тестовые функции для покрытия
     try:
@@ -1433,7 +1453,7 @@ def test_widget_test_functions_coverage():
 
 def test_widget_final_coverage():
     """Полное покрытие оставшихся строк в widget.py"""
-    from src.widget import validate_widget_data, mask_account_card
+    from src.widget import mask_account_card, validate_widget_data
 
     # ===== СТРОКИ 4-7, 12-13: None и пустые значения =====
     assert mask_account_card(None) == ""
@@ -1471,7 +1491,7 @@ def test_widget_final_coverage():
 
 def test_widget_all_remaining_lines():
     """Прямой тест для всех оставшихся непокрытых строк в widget.py"""
-    from src.widget import validate_widget_data, mask_account_card
+    from src.widget import mask_account_card, validate_widget_data
 
     # ===== СТРОКИ 4-7, 12-13: None и пустые значения =====
     assert mask_account_card(None) == ""
@@ -1511,4 +1531,5 @@ def test_widget_all_remaining_lines():
     assert mask_account_card("Visa 1234/5678/9012/3456") == "1234 56** **** 3456"
     assert mask_account_card("Visa 1234 5678 9012 3456") == "1234 56** **** 3456"
 
-#проверка отправки на гидхаб
+
+# проверка отправки на гидхаб

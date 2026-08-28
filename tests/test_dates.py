@@ -1,8 +1,9 @@
 import pytest
+
 from src.dates import get_date
 
-
 # ==================== БАЗОВЫЕ ТЕСТЫ ====================
+
 
 def test_date_parsing_valid():
     """Тест парсинга валидной даты"""
@@ -53,6 +54,7 @@ def test_date_parsing_leap_year():
 
 
 # ==================== ТЕСТЫ ДЛЯ НЕПОКРЫТЫХ СТРОК ====================
+
 
 def test_date_parsing_month_names():
     """Тест с названиями месяцев - строки 19-33"""
@@ -105,8 +107,8 @@ def test_date_parsing_invalid_formats():
         "2026-01-00",  # Нулевой день
         "invalid-date",
         "not-a-date",
-        "2026-08",     # Неполная дата
-        "2026",        # Только год
+        "2026-08",  # Неполная дата
+        "2026",  # Только год
     ]
     for date_str in invalid_dates:
         with pytest.raises(ValueError):
@@ -114,6 +116,7 @@ def test_date_parsing_invalid_formats():
 
 
 # ==================== ДОПОЛНИТЕЛЬНЫЕ ТЕСТЫ ====================
+
 
 def test_date_parsing_all_month_days():
     """Тест с разными днями месяцев"""
@@ -148,4 +151,3 @@ def test_date_parsing_different_separators():
         assert result == "2026-08-22"
     except ValueError:
         pass
-

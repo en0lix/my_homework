@@ -7,7 +7,7 @@ def get_mask_card_number(card_number: Optional[str]) -> str:
         return ""
 
     # Удаляем пробелы и дефисы
-    cleaned = ''.join(c for c in str(card_number) if c.isdigit())
+    cleaned = "".join(c for c in str(card_number) if c.isdigit())
 
     if len(cleaned) < 4:
         return str(card_number)
@@ -26,7 +26,7 @@ def get_mask_account(account_number: Optional[str]) -> str:
     if not account_number:
         return ""
 
-    cleaned = ''.join(c for c in str(account_number) if c.isdigit())
+    cleaned = "".join(c for c in str(account_number) if c.isdigit())
 
     if len(cleaned) < 4:
         return str(account_number)

@@ -1,6 +1,6 @@
 # src/generators.py
 
-from typing import Iterator, Dict, Any, Optional
+from typing import Any, Dict, Iterator, Optional
 
 
 def filter_by_currency(transactions: list[Dict[str, Any]], currency: str) -> Iterator[Dict[str, Any]]:
@@ -31,9 +31,11 @@ def filter_by_currency(transactions: list[Dict[str, Any]], currency: str) -> Ite
     for transaction in transactions:
         try:
             # Проверяем наличие валюты в транзакции
-            if (transaction.get("operationAmount") and
-                    transaction["operationAmount"].get("currency") and
-                    transaction["operationAmount"]["currency"].get("code") == currency):
+            if (
+                transaction.get("operationAmount")
+                and transaction["operationAmount"].get("currency")
+                and transaction["operationAmount"]["currency"].get("code") == currency
+            ):
                 yield transaction
         except (AttributeError, TypeError, KeyError):
             # Пропускаем транзакции с некорректной структурой

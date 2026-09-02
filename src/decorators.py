@@ -5,7 +5,7 @@
 import functools
 import logging
 import sys
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import Any, Callable, Optional, TypeVar, cast
 
 # Тип для функции, возвращающей Any
 F = TypeVar("F", bound=Callable[..., Any])
@@ -29,15 +29,15 @@ def log(filename: Optional[str] = None) -> Callable[[F], F]:
             logger = logging.getLogger(func.__name__)
             logger.setLevel(logging.INFO)
 
-            # Очищаем старые обработчики, чтобы избежать дублирования
+            # Очищаем старые обработчики
             if logger.hasHandlers():
                 logger.handlers.clear()
 
-            # Создаем обработчик (исправлено: используем один тип)
+            # Создаем обработчик
             if filename:
-                handler = logging.FileHandler(filename, encoding="utf-8")
+                handler: logging.Handler = logging.FileHandler(filename, encoding="utf-8")
             else:
-                handler = logging.StreamHandler(sys.stdout)  # type: ignore
+                handler = logging.StreamHandler(sys.stdout)
 
             handler.setLevel(logging.INFO)
             formatter = logging.Formatter("%(message)s")
@@ -45,16 +45,11 @@ def log(filename: Optional[str] = None) -> Callable[[F], F]:
             logger.addHandler(handler)
 
             try:
-                # Выполняем функцию
                 result = func(*args, **kwargs)
-
-                # Логируем успешное выполнение
                 logger.info(f"{func.__name__} ok")
-
                 return result
 
             except Exception as e:
-                # Логируем ошибку с параметрами
                 args_str = ", ".join(repr(a) for a in args)
                 kwargs_str = ", ".join(f"{k}={repr(v)}" for k, v in kwargs.items())
 
@@ -64,10 +59,8 @@ def log(filename: Optional[str] = None) -> Callable[[F], F]:
                     inputs = f"({args_str})" if args else "()"
 
                 logger.error(f"{func.__name__} error: {type(e).__name__}. Inputs: {inputs}")
-
-                # Пробрасываем исключение дальше
                 raise
 
-        return wrapper  # type: ignore
+        return cast(F, wrapper)
 
     return decorator

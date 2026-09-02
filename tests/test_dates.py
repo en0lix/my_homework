@@ -1,3 +1,8 @@
+python
+"""
+Прямые тесты для модуля dates.
+"""
+
 import pytest
 
 from src.dates import get_date

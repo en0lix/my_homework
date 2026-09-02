@@ -21,7 +21,7 @@ class TestGetTransactionsFromJson:
             {"id": 2, "state": "PENDING", "amount": 200},
         ]
 
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp_file:
             json.dump(test_data, tmp_file)
             tmp_file_path = tmp_file.name
 
@@ -36,8 +36,8 @@ class TestGetTransactionsFromJson:
 
     def test_empty_json_file(self) -> None:
         """Тест чтения пустого JSON-файла."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp_file:
-            tmp_file.write('')
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp_file:
+            tmp_file.write("")
             tmp_file_path = tmp_file.name
 
         try:
@@ -49,7 +49,7 @@ class TestGetTransactionsFromJson:
 
     def test_invalid_json_file(self) -> None:
         """Тест чтения невалидного JSON-файла."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp_file:
             tmp_file.write('{"invalid": "json"')
             tmp_file_path = tmp_file.name
 
@@ -64,7 +64,7 @@ class TestGetTransactionsFromJson:
         """Тест чтения JSON-файла с не-списком."""
         test_data = {"key": "value"}
 
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp_file:
             json.dump(test_data, tmp_file)
             tmp_file_path = tmp_file.name
 

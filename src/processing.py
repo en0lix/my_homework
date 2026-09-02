@@ -1,16 +1,13 @@
-from typing import Any, Dict, List, Optional
+"""
+Модуль processing содержит функции для фильтрации и сортировки транзакций.
+"""
+
+from typing import Any, Dict, List
 
 
 def filter_by_state(transactions: List[Dict[str, Any]], state: str = "EXECUTED") -> List[Dict[str, Any]]:
     """
     Фильтрует транзакции по заданному статусу.
-
-    Args:
-        transactions: Список словарей с данными транзакций
-        state: Статус для фильтрации (по умолчанию "EXECUTED")
-
-    Returns:
-        List[Dict[str, Any]]: Отфильтрованный список транзакций
     """
     if not transactions:
         return []
@@ -21,22 +18,13 @@ def filter_by_state(transactions: List[Dict[str, Any]], state: str = "EXECUTED")
 def sort_by_date(transactions: List[Dict[str, Any]], reverse: bool = True) -> List[Dict[str, Any]]:
     """
     Сортирует транзакции по дате.
-
-    Args:
-        transactions: Список словарей с данными транзакций
-        reverse: True - по убыванию (новые сверху), False - по возрастанию
-
-    Returns:
-        List[Dict[str, Any]]: Отсортированный список транзакций
     """
     if not transactions:
         return []
 
     def get_date(transaction: Dict[str, Any]) -> str:
-        """
-        Вспомогательная функция для получения даты из транзакции.
-        Если ключ 'date' отсутствует, возвращает пустую строку.
-        """
-        return transaction.get("date", "")
+        """Вспомогательная функция для получения даты."""
+        date_value: str = transaction.get("date", "")
+        return date_value
 
     return sorted(transactions, key=get_date, reverse=reverse)

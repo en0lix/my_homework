@@ -25,7 +25,7 @@ def get_transactions_from_json(file_path: str) -> List[Dict[str, Any]]:
         if not os.path.exists(file_path):
             return []
 
-        with open(file_path, 'r', encoding='utf-8') as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
 
         if not isinstance(data, list):

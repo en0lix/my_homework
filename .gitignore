@@ -285,3 +285,8 @@ Thumbs.db
 *.bak
 data/*.json
 !data/operations.json
+
+# Логи
+logs/
+*.log
+!logs/.gitkeep

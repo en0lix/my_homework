@@ -243,3 +243,53 @@ __marimo__/
 poetry.lock
 =======
 >>>>>>> fc4605dcf98fe96a91dde863372e873c77428ca3
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Project specific
+*.log
+*.tmp
+*.bak
+data/*.json
+!data/operations.json
+
+# Логи
+logs/
+*.log
+!logs/.gitkeep
+# Logs
+logs/*.log
+!logs/.gitkeep

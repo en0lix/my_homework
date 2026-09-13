@@ -290,3 +290,6 @@ data/*.json
 logs/
 *.log
 !logs/.gitkeep
+# Logs
+logs/*.log
+!logs/.gitkeep

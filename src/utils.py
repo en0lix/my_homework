@@ -1,4 +1,121 @@
 """
+Модуль utils содержит утилиты для работы с данными.
+"""
+
+import json
+import logging
+import os
+import re
+from collections import Counter
+from typing import Any, Dict, List
+
+import pandas as pd
+
+logger = logging.getLogger(__name__)
+
+
+def get_transactions_from_json(file_path: str) -> List[Dict[str, Any]]:
+    """Читает JSON-файл с транзакциями."""
+    if not os.path.exists(file_path):
+        logger.warning(f"Файл не найден: {file_path}")
+        return []
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, list) else []
+    except (json.JSONDecodeError, OSError) as e:
+        logger.error(f"Ошибка чтения JSON: {e}")
+        return []
+
+
+def get_transactions_from_csv(file_path: str) -> List[Dict[str, Any]]:
+    """Читает CSV-файл с транзакциями."""
+    if not os.path.exists(file_path):
+        logger.warning(f"Файл не найден: {file_path}")
+        return []
+    try:
+        df = pd.read_csv(file_path)
+        return df.to_dict("records") if not df.empty else []
+    except Exception as e:
+        logger.error(f"Ошибка чтения CSV: {e}")
+        return []
+
+
+def get_transactions_from_excel(file_path: str) -> List[Dict[str, Any]]:
+    """Читает Excel-файл с транзакциями."""
+    if not os.path.exists(file_path):
+        logger.warning(f"Файл не найден: {file_path}")
+        return []
+    try:
+        df = pd.read_excel(file_path)
+        return df.to_dict("records") if not df.empty else []
+    except Exception as e:
+        logger.error(f"Ошибка чтения Excel: {e}")
+        return []
+
+
+def process_bank_search(data: List[Dict[str, Any]], search: str) -> List[Dict[str, Any]]:
+    """
+    Фильтрует транзакции по строке поиска в описании с использованием re.
+
+    Args:
+        data: список словарей с данными о банковских операциях.
+        search: строка поиска.
+
+    Returns:
+        Список транзакций, в описании которых найдена строка поиска.
+    """
+    if not data or not search:
+        return []
+
+    try:
+        pattern = re.compile(re.escape(search), re.IGNORECASE)
+    except re.error as e:
+        logger.error(f"Ошибка компиляции regex: {e}")
+        return []
+
+    return [
+        transaction
+        for transaction in data
+        if pattern.search(str(transaction.get("description", "") or ""))
+    ]
+
+
+def process_bank_operations(
+    data: List[Dict[str, Any]], categories: List[str]
+) -> Dict[str, int]:
+    """
+    Считает количество операций по каждой категории с использованием Counter.
+
+    Args:
+        data: список словарей с данными о банковских операциях.
+        categories: список категорий операций (поле description).
+
+    Returns:
+        Словарь {категория: количество операций}.
+    """
+    if not categories:
+        return {}
+
+    patterns = {
+        category: re.compile(re.escape(category), re.IGNORECASE)
+        for category in categories
+    }
+
+    matched: List[str] = []
+    for transaction in data or []:
+        description = str(transaction.get("description", "") or "")
+        for category, pattern in patterns.items():
+            if pattern.search(description):
+                matched.append(category)
+                break
+
+    counted = Counter(matched)
+
+    # Гарантируем, что все категории есть в ответе (даже с нулём)
+    return {category: counted.get(category, 0) for category in categories}
+
+"""
 Модуль utils содержит утилиты для работы с данными из различных форматов.
 """
 

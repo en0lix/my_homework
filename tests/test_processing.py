@@ -1,4 +1,5 @@
 import pytest
+
 from src.processing import filter_by_state, sort_by_date
 
 
@@ -15,6 +16,7 @@ def sample_transactions():
 
 
 # ===== ТЕСТЫ ДЛЯ filter_by_state =====
+
 
 def test_filter_by_state_executed(sample_transactions):
     """Тест фильтрации по статусу EXECUTED"""
@@ -50,6 +52,7 @@ def test_filter_by_state_empty():
 
 
 # ===== ТЕСТЫ ДЛЯ sort_by_date =====
+
 
 def test_sort_by_date_descending(sample_transactions):
     """Тест сортировки по убыванию (новые → старые)"""

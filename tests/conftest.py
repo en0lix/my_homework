@@ -1,18 +1,35 @@
 import pytest
-from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 # ==================== ФИКСТУРЫ ====================
+
 
 @pytest.fixture
 def sample_transactions():
     """Фикстура с тестовыми транзакциями разных валют"""
     return [
-        {"id": 1, "operationAmount": {"currency": {"code": "USD"}, "amount": "100.50"}, "description": "Payment for services"},
-        {"id": 2, "operationAmount": {"currency": {"code": "EUR"}, "amount": "250.00"}, "description": "Online purchase"},
-        {"id": 3, "operationAmount": {"currency": {"code": "USD"}, "amount": "75.20"}, "description": "Transfer to friend"},
+        {
+            "id": 1,
+            "operationAmount": {"currency": {"code": "USD"}, "amount": "100.50"},
+            "description": "Payment for services",
+        },
+        {
+            "id": 2,
+            "operationAmount": {"currency": {"code": "EUR"}, "amount": "250.00"},
+            "description": "Online purchase",
+        },
+        {
+            "id": 3,
+            "operationAmount": {"currency": {"code": "USD"}, "amount": "75.20"},
+            "description": "Transfer to friend",
+        },
         {"id": 4, "operationAmount": {"currency": {"code": "RUB"}, "amount": "5000.00"}, "description": "Groceries"},
-        {"id": 5, "operationAmount": {"currency": {"code": "USD"}, "amount": "1200.00"}, "description": "Rent payment"},
+        {
+            "id": 5,
+            "operationAmount": {"currency": {"code": "USD"}, "amount": "1200.00"},
+            "description": "Rent payment",
+        },
         {"id": 6, "operationAmount": {"currency": {"code": "GBP"}, "amount": "300.00"}, "description": "Subscription"},
     ]
 
@@ -25,15 +42,19 @@ def empty_transactions():
 
 # ==================== ТЕСТЫ ДЛЯ filter_by_currency ====================
 
+
 class TestFilterByCurrency:
     """Класс тестов для функции filter_by_currency"""
 
-    @pytest.mark.parametrize("currency, expected_ids", [
-        ("USD", [1, 3, 5]),
-        ("EUR", [2]),
-        ("RUB", [4]),
-        ("GBP", [6]),
-    ])
+    @pytest.mark.parametrize(
+        "currency, expected_ids",
+        [
+            ("USD", [1, 3, 5]),
+            ("EUR", [2]),
+            ("RUB", [4]),
+            ("GBP", [6]),
+        ],
+    )
     def test_filter_by_currency_valid(self, sample_transactions, currency, expected_ids):
         """Тест фильтрации по валюте"""
         result = list(filter_by_currency(sample_transactions, currency))
@@ -80,6 +101,7 @@ class TestFilterByCurrency:
 
 # ==================== ТЕСТЫ ДЛЯ transaction_descriptions ====================
 
+
 class TestTransactionDescriptions:
     """Класс тестов для функции transaction_descriptions"""
 
@@ -116,16 +138,20 @@ class TestTransactionDescriptions:
 
 # ==================== ТЕСТЫ ДЛЯ card_number_generator ====================
 
+
 class TestCardNumberGenerator:
     """Класс тестов для генератора card_number_generator"""
 
-    @pytest.mark.parametrize("start, end, expected_count", [
-        (1, 5, 5),
-        (10, 15, 6),
-        (100, 105, 6),
-        (1, 1, 1),
-        (5, 5, 1),
-    ])
+    @pytest.mark.parametrize(
+        "start, end, expected_count",
+        [
+            (1, 5, 5),
+            (10, 15, 6),
+            (100, 105, 6),
+            (1, 1, 1),
+            (5, 5, 1),
+        ],
+    )
     def test_card_number_generator_range(self, start, end, expected_count):
         """Тест генерации номеров карт в диапазоне (строки 52-58)"""
         gen = card_number_generator(start, end)
@@ -135,11 +161,14 @@ class TestCardNumberGenerator:
             assert isinstance(card, int)
             assert len(str(card)) == 16
 
-    @pytest.mark.parametrize("start, end", [
-        (10, 5),   # start > end
-        (0, 5),    # start = 0
-        (-5, -1),  # отрицательные числа
-    ])
+    @pytest.mark.parametrize(
+        "start, end",
+        [
+            (10, 5),  # start > end
+            (0, 5),  # start = 0
+            (-5, -1),  # отрицательные числа
+        ],
+    )
     def test_card_number_generator_invalid_range(self, start, end):
         """Тест с невалидными диапазонами"""
         gen = card_number_generator(start, end)
@@ -170,6 +199,7 @@ class TestCardNumberGenerator:
 
 
 # ==================== ИНТЕГРАЦИОННЫЕ ТЕСТЫ ====================
+
 
 class TestGeneratorsIntegration:
     """Интеграционные тесты для всех генераторов"""

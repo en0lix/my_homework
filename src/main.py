@@ -1,175 +1,72 @@
 """
-Модуль main содержит основную логику программы работы с банковскими транзакциями.
+Точка входа в приложение для анализа транзакций.
 """
 
+import json
 import logging
-from typing import Any, Dict, List
+from datetime import datetime
 
-from src.processing import filter_by_state, sort_by_date
-from src.utils import (
-    get_transactions_from_csv,
-    get_transactions_from_excel,
-    get_transactions_from_json,
-    process_bank_search,
+from src.external_api import get_currency_rates, get_stock_prices
+from src.utils import read_operations_excel
+from src.views import get_main_page_view
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
-from src.widget import get_date, mask_account_card
 
 logger = logging.getLogger(__name__)
 
-AVAILABLE_STATUSES = ("EXECUTED", "CANCELED", "PENDING")
+
+def load_user_settings(path: str = "user_settings.json") -> dict:
+    """Загружает настройки пользователя из JSON-файла."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        logger.warning(f"Файл настроек не найден: {path}")
+        return {"user_currencies": [], "user_stocks": []}
+    except json.JSONDecodeError as e:
+        logger.error(f"Ошибка чтения JSON: {e}")
+        return {"user_currencies": [], "user_stocks": []}
 
 
-def ask_menu_choice() -> str:
-    """Спрашивает у пользователя выбор формата файла (1, 2 или 3)."""
-    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
-    print("Выберите необходимый пункт меню:")
-    print("1. Получить информацию о транзакциях из JSON-файла")
-    print("2. Получить информацию о транзакциях из CSV-файла")
-    print("3. Получить информацию о транзакциях из XLSX-файла")
+def main():
+    """Запускает приложение и выводит JSON-ответ для главной страницы."""
+    logger.info("Приложение запущено")
 
-    while True:
-        choice = input("Ваш выбор: ").strip()
-        if choice in ("1", "2", "3"):
-            return choice
-        print("Некорректный выбор. Попробуйте снова.")
+    # 1. Настройки
+    settings = load_user_settings()
+    logger.info(f"Настройки загружены: {settings}")
 
+    # 2. Транзакции
+    transactions = read_operations_excel("data/operations.xlsx")
+    logger.info(f"Загружено {len(transactions)} транзакций")
 
-def read_transactions(choice: str) -> List[Dict[str, Any]]:
-    """Читает транзакции в зависимости от выбора пользователя."""
-    if choice == "1":
-        print("Для обработки выбран JSON-файл.")
-        return get_transactions_from_json("data/operations.json")
-    if choice == "2":
-        print("Для обработки выбран CSV-файл.")
-        return get_transactions_from_csv("data/transactions.csv")
-    if choice == "3":
-        print("Для обработки выбран XLSX-файл.")
-        return get_transactions_from_excel("data/transactions_excel.xlsx")
-    return []
+    # 3. Курсы валют
+    rates = get_currency_rates(settings.get("user_currencies", []))
+    logger.info(f"Курсы валют: {rates}")
 
+    # 4. Цены акций
+    stocks = get_stock_prices(settings.get("user_stocks", []))
+    logger.info(f"Цены акций: {stocks}")
 
-def ask_status() -> str:
-    """Спрашивает статус фильтрации, повторяет запрос при ошибке."""
-    while True:
-        print(
-            "Введите статус, по которому необходимо выполнить фильтрацию. "
-            f"Доступные для фильтровки статусы: {', '.join(AVAILABLE_STATUSES)}"
+    # 5. Дата для фильтра — берём максимальную дату из данных
+    if transactions:
+        max_date = max(
+            tx["Дата операции"] for tx in transactions if tx.get("Дата операции")
         )
-        status = input("Статус: ").strip().upper()
+        date_str = max_date.strftime("%Y-%m-%d %H:%M:%S")
+        logger.info(f"Используем дату из данных: {date_str}")
+    else:
+        date_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        logger.info(f"Используем текущую дату: {date_str}")
 
-        if status in AVAILABLE_STATUSES:
-            print(f'Операции отфильтрованы по статусу "{status}"')
-            return status
+    # 6. Формируем JSON-ответ
+    result = get_main_page_view(date_str, transactions, rates, stocks)
 
-        print(f'Статус операции "{status}" недоступен.')
-
-
-def ask_yes_no(question: str) -> bool:
-    """Задаёт вопрос с ответом Да/Нет и возвращает булево значение."""
-    while True:
-        answer = input(f"{question} Да/Нет: ").strip().lower()
-        if answer in ("да", "yes", "y", "д"):
-            return True
-        if answer in ("нет", "no", "n", "н"):
-            return False
-        print("Пожалуйста, ответьте 'Да' или 'Нет'.")
-
-
-def ask_sort_direction() -> bool:
-    """Спрашивает направление сортировки (возвращает reverse)."""
-    while True:
-        answer = input("Отсортировать по возрастанию или по убыванию? ").strip().lower()
-        if "возр" in answer:
-            return False
-        if "убыв" in answer:
-            return True
-        print("Введите 'по возрастанию' или 'по убыванию'.")
-
-
-def is_ruble_transaction(transaction: Dict[str, Any]) -> bool:
-    """Проверяет, что транзакция в рублях."""
-    code = (
-        transaction.get("operationAmount", {})
-        .get("currency", {})
-        .get("code", "")
-    )
-    return code == "RUB"
-
-
-def format_transaction(transaction: Dict[str, Any]) -> str:
-    """Форматирует транзакцию для вывода в консоль."""
-    date_raw = transaction.get("date", "")
-    date = get_date(date_raw) or date_raw
-    description = transaction.get("description", "") or ""
-    from_acc = transaction.get("from") or ""
-    to_acc = transaction.get("to") or ""
-
-    from_masked = mask_account_card(from_acc) if from_acc else ""
-    to_masked = mask_account_card(to_acc) if to_acc else ""
-
-    amount = transaction.get("operationAmount", {}).get("amount", "0")
-    code = (
-        transaction.get("operationAmount", {})
-        .get("currency", {})
-        .get("code", "")
-    )
-    symbol = "руб." if code == "RUB" else code
-
-    lines = [f"{date} {description}".strip()]
-    if from_masked and to_masked:
-        lines.append(f"{from_masked} -> {to_masked}")
-    elif to_masked:
-        lines.append(to_masked)
-    lines.append(f"Сумма: {amount} {symbol}".strip())
-    return "\n".join(lines)
-
-
-def main() -> None:
-    """Основная логика программы работы с банковскими транзакциями."""
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
-
-    # 1. Выбор файла
-    choice = ask_menu_choice()
-    transactions = read_transactions(choice)
-
-    if not transactions:
-        print("Не удалось загрузить транзакции из файла.")
-        return
-
-    # 2. Фильтр по статусу
-    status = ask_status()
-    transactions = filter_by_state(transactions, status)
-
-    # 3. Сортировка по дате
-    if ask_yes_no("Отсортировать операции по дате?"):
-        reverse = ask_sort_direction()
-        transactions = sort_by_date(transactions, reverse=reverse)
-
-    # 4. Только рублёвые транзакции
-    if ask_yes_no("Выводить только рублевые транзакции?"):
-        transactions = [t for t in transactions if is_ruble_transaction(t)]
-
-    # 5. Поиск по слову в описании
-    if ask_yes_no(
-        "Отфильтровать список транзакций по определенному слову в описании?"
-    ):
-        search = input("Введите слово для поиска: ").strip()
-        transactions = process_bank_search(transactions, search)
-
-    # 6. Вывод
-    print("\nРаспечатываю итоговый список транзакций...\n")
-
-    if not transactions:
-        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
-        return
-
-    print(f"Всего банковских операций в выборке: {len(transactions)}\n")
-    for transaction in transactions:
-        print(format_transaction(transaction))
-        print()
+    # 7. Выводим
+    print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
 
 
 if __name__ == "__main__":

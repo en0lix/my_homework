@@ -24,13 +24,21 @@ def sample_transactions():
             "operationAmount": {"currency": {"code": "USD"}, "amount": "75.20"},
             "description": "Transfer to friend",
         },
-        {"id": 4, "operationAmount": {"currency": {"code": "RUB"}, "amount": "5000.00"}, "description": "Groceries"},
+        {
+            "id": 4,
+            "operationAmount": {"currency": {"code": "RUB"}, "amount": "5000.00"},
+            "description": "Groceries",
+        },
         {
             "id": 5,
             "operationAmount": {"currency": {"code": "USD"}, "amount": "1200.00"},
             "description": "Rent payment",
         },
-        {"id": 6, "operationAmount": {"currency": {"code": "GBP"}, "amount": "300.00"}, "description": "Subscription"},
+        {
+            "id": 6,
+            "operationAmount": {"currency": {"code": "GBP"}, "amount": "300.00"},
+            "description": "Subscription",
+        },
     ]
 
 

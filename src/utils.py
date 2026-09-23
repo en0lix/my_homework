@@ -50,15 +50,17 @@ def read_operations_excel(file_path: str) -> List[Dict[str, Any]]:
 
         elif is_json_export:
             # JSON-экспорт
-            df = df.rename(columns={
-                "date": "Дата операции",
-                "amount": "Сумма платежа",
-                "description": "Описание",
-                "state": "Статус",
-                "from": "Откуда",
-                "to": "Куда",
-                "currency_code": "Валюта операции",
-            })
+            df = df.rename(
+                columns={
+                    "date": "Дата операции",
+                    "amount": "Сумма платежа",
+                    "description": "Описание",
+                    "state": "Статус",
+                    "from": "Откуда",
+                    "to": "Куда",
+                    "currency_code": "Валюта операции",
+                }
+            )
             df["Дата операции"] = pd.to_datetime(
                 df["Дата операции"], errors="coerce", utc=True
             ).dt.tz_localize(None)
@@ -72,7 +74,15 @@ def read_operations_excel(file_path: str) -> List[Dict[str, Any]]:
             return []
 
         # Заполняем пустые значения
-        for col in ["Номер карты", "Категория", "Описание", "Статус", "Откуда", "Куда", "Валюта операции"]:
+        for col in [
+            "Номер карты",
+            "Категория",
+            "Описание",
+            "Статус",
+            "Откуда",
+            "Куда",
+            "Валюта операции",
+        ]:
             if col in df.columns:
                 df[col] = df[col].fillna("").astype(str)
             else:

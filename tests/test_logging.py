@@ -44,8 +44,8 @@ class TestUtilsLogging:
 
     def test_get_transactions_from_json_logging(self, caplog) -> None:
         """Тест логирования чтения JSON-файла."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp_file:
-            tmp_file.write('[]')
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp_file:
+            tmp_file.write("[]")
             tmp_file_path = tmp_file.name
 
         try:

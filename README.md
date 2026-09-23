@@ -500,7 +500,16 @@ def test_filter_by_state_executed(sample_transactions):
     assert len(result) == 2
     assert all(item["state"] == "EXECUTED" for item in result)
 
+# Product Catalog
 
+Каталог товаров с классами `Product` и `Category`.
+
+## 📋 Описание
+
+Проект содержит два класса:
+
+- **Product** — описывает товар (название, описание, цена, количество)
+- **Category** — описывает категорию товаров (название, описание, список товаров)
 
 ##  Отчет по покрытию тестов 
 

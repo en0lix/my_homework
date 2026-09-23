@@ -53,9 +53,7 @@ def main():
 
     # 5. Дата для фильтра — берём максимальную дату из данных
     if transactions:
-        max_date = max(
-            tx["Дата операции"] for tx in transactions if tx.get("Дата операции")
-        )
+        max_date = max(tx["Дата операции"] for tx in transactions if tx.get("Дата операции"))
         date_str = max_date.strftime("%Y-%m-%d %H:%M:%S")
         logger.info(f"Используем дату из данных: {date_str}")
     else:

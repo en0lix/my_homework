@@ -1,104 +1,61 @@
-[project]
-package-mode = false
+[tool.poetry]
 name = "pythonproject5"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "Your Name",email = "you@example.com"}
-]
-requires-python = ">=3.12"
-dependencies = [
-    "generators (>=2020.4.27,<2021.0.0)"
+description = "Banking operations processing"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [
+    { include = "src" },
 ]
 
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"
+pandas = "^2.2.0"
+openpyxl = "^3.1.0"
+python-dateutil = "^2.8.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.0"
+pytest-cov = "^7.0.0"
+mypy = "^1.10.0"
+black = "^24.0.0"
+isort = "^5.13.0"
+flake8 = "^7.0.0"
+types-requests = "^2.31.0"
+types-python-dateutil = "^2.8.19"
+pandas-stubs = "^2.2.0"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[dependency-groups]
-lint = [
-    "flake8 (>=7.3.0,<8.0.0)",
-    "black (>=26.5.1,<27.0.0)",
-    "isort (>=8.0.1,<9.0.0)",
-    "mypy (>=2.1.0,<3.0.0)"
-]
-dev = [
-    "pytest (>=9.1.1,<10.0.0)",
-    "pytest-cov (>=7.1.0,<8.0.0)"
-]
-[tool.mypy]
-disallow_untyped_defs = true
-no_implicit_optional = true
-warn_return_any = true
-exclude = '.venv'
-[tool.black]
-# Максимальная длина строки
-line-length = 119
-# Файлы, которые не нужно форматировать
-exclude = '''
-(
-  /(
-      \.eggs         # Исключить несколько общих каталогов
-    | \.git          # в корне проекта
-    | \.mypy_cache
-    | \.venv
-  )/
-  | foo.py           # Также отдельно исключить файл с именем foo.py
-                     # в корне проекта
-)
-'''
-[tool.isort]
-# максимальная длина строки
-line_length = 119
-
-[project]
-name = "pythonproject5"
-version = "1.0.0"
-description = "Banking operations processing"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "requests>=2.28.0",
-    "python-dotenv>=1.0.0",
-    "pandas>=2.0.0",
-    "openpyxl>=3.1.0",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=9.0.0",
-    "pytest-cov>=7.0.0",
-    "coverage>=7.0.0",
-    "mypy>=1.0.0",
-    "flake8>=7.0.0",
-    "black>=24.0.0",
-    "isort>=5.13.0",
-    "typing-extensions>=4.6.0",
-]
-
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
+# ===== pytest =====
 [tool.pytest.ini_options]
-minversion = "9.0"
-addopts = "-ra -q --strict-markers"
 testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --tb=short"
 
+# ===== coverage =====
 [tool.coverage.run]
 source = ["src"]
 omit = ["*/tests/*", "*/__pycache__/*"]
 
+# ===== black =====
 [tool.black]
 line-length = 100
 target-version = ["py312"]
 
+# ===== isort =====
 [tool.isort]
 profile = "black"
 line_length = 100
 
+# ===== mypy =====
 [tool.mypy]
 python_version = "3.12"
 ignore_missing_imports = true
-exclude = ["tests/.*"]
+exclude = ["tests/"]

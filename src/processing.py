@@ -5,7 +5,9 @@
 from typing import Any, Dict, List
 
 
-def filter_by_state(transactions: List[Dict[str, Any]], state: str = "EXECUTED") -> List[Dict[str, Any]]:
+def filter_by_state(
+    transactions: List[Dict[str, Any]], state: str = "EXECUTED"
+) -> List[Dict[str, Any]]:
     """
     Фильтрует транзакции по заданному статусу.
     """

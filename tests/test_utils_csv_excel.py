@@ -22,17 +22,15 @@ class TestGetTransactionsFromCsv:
     def test_valid_csv_file(self) -> None:
         """Тест чтения валидного CSV-файла."""
         # Создаем тестовый CSV файл
-        test_data = pd.DataFrame([
-            {"id": 1, "state": "EXECUTED", "amount": 100},
-            {"id": 2, "state": "PENDING", "amount": 200},
-        ])
+        test_data = pd.DataFrame(
+            [
+                {"id": 1, "state": "EXECUTED", "amount": 100},
+                {"id": 2, "state": "PENDING", "amount": 200},
+            ]
+        )
 
         with tempfile.NamedTemporaryFile(
-                mode='w',
-                suffix='.csv',
-                delete=False,
-                newline='',
-                encoding='utf-8'
+            mode="w", suffix=".csv", delete=False, newline="", encoding="utf-8"
         ) as tmp_file:
             test_data.to_csv(tmp_file.name, index=False)
             tmp_file_path = tmp_file.name
@@ -55,13 +53,9 @@ class TestGetTransactionsFromCsv:
     def test_empty_csv_file(self) -> None:
         """Тест чтения пустого CSV-файла."""
         with tempfile.NamedTemporaryFile(
-                mode='w',
-                suffix='.csv',
-                delete=False,
-                newline='',
-                encoding='utf-8'
+            mode="w", suffix=".csv", delete=False, newline="", encoding="utf-8"
         ) as tmp_file:
-            tmp_file.write('')
+            tmp_file.write("")
             tmp_file_path = tmp_file.name
 
         try:
@@ -80,13 +74,9 @@ class TestGetTransactionsFromCsv:
     def test_csv_with_headers_only(self) -> None:
         """Тест CSV-файла только с заголовками."""
         with tempfile.NamedTemporaryFile(
-                mode='w',
-                suffix='.csv',
-                delete=False,
-                newline='',
-                encoding='utf-8'
+            mode="w", suffix=".csv", delete=False, newline="", encoding="utf-8"
         ) as tmp_file:
-            tmp_file.write('id,state,amount\n')
+            tmp_file.write("id,state,amount\n")
             tmp_file_path = tmp_file.name
 
         try:
@@ -97,12 +87,12 @@ class TestGetTransactionsFromCsv:
             if os.path.exists(tmp_file_path):
                 os.remove(tmp_file_path)
 
-    @patch('src.utils.pd.read_csv')
+    @patch("src.utils.pd.read_csv")
     def test_csv_parser_error(self, mock_read_csv: MagicMock) -> None:
         """Тест ошибки парсинга CSV."""
         mock_read_csv.side_effect = pd.errors.ParserError("Parse error")
 
-        with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tmp_file:
             tmp_file_path = tmp_file.name
 
         try:
@@ -120,12 +110,14 @@ class TestGetTransactionsFromExcel:
     def test_valid_excel_file(self) -> None:
         """Тест чтения валидного Excel-файла."""
         # Создаем тестовый Excel файл
-        test_data = pd.DataFrame([
-            {"id": 1, "state": "EXECUTED", "amount": 100},
-            {"id": 2, "state": "PENDING", "amount": 200},
-        ])
+        test_data = pd.DataFrame(
+            [
+                {"id": 1, "state": "EXECUTED", "amount": 100},
+                {"id": 2, "state": "PENDING", "amount": 200},
+            ]
+        )
 
-        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp_file:
             test_data.to_excel(tmp_file.name, index=False)
             tmp_file_path = tmp_file.name
 
@@ -149,7 +141,7 @@ class TestGetTransactionsFromExcel:
         # Создаем пустой Excel файл
         test_data = pd.DataFrame()
 
-        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp_file:
             test_data.to_excel(tmp_file.name, index=False)
             tmp_file_path = tmp_file.name
 
@@ -177,10 +169,7 @@ class TestGetTransactionsFromFile:
         test_data = [{"id": 1, "state": "EXECUTED"}]
 
         with tempfile.NamedTemporaryFile(
-                mode='w',
-                suffix='.json',
-                delete=False,
-                encoding='utf-8'
+            mode="w", suffix=".json", delete=False, encoding="utf-8"
         ) as tmp_file:
             json.dump(test_data, tmp_file)
             tmp_file_path = tmp_file.name
@@ -198,11 +187,7 @@ class TestGetTransactionsFromFile:
         test_data = pd.DataFrame([{"id": 1, "state": "EXECUTED"}])
 
         with tempfile.NamedTemporaryFile(
-                mode='w',
-                suffix='.csv',
-                delete=False,
-                newline='',
-                encoding='utf-8'
+            mode="w", suffix=".csv", delete=False, newline="", encoding="utf-8"
         ) as tmp_file:
             test_data.to_csv(tmp_file.name, index=False)
             tmp_file_path = tmp_file.name
@@ -222,7 +207,7 @@ class TestGetTransactionsFromFile:
         """Тест чтения Excel-файла."""
         test_data = pd.DataFrame([{"id": 1, "state": "EXECUTED"}])
 
-        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp_file:
             test_data.to_excel(tmp_file.name, index=False)
             tmp_file_path = tmp_file.name
 
@@ -239,8 +224,8 @@ class TestGetTransactionsFromFile:
 
     def test_unsupported_format(self) -> None:
         """Тест с неподдерживаемым форматом файла."""
-        with tempfile.NamedTemporaryFile(suffix='.txt', delete=False) as tmp_file:
-            tmp_file.write(b'test content')
+        with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as tmp_file:
+            tmp_file.write(b"test content")
             tmp_file_path = tmp_file.name
 
         try:

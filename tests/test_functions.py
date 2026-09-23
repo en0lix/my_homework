@@ -1,5 +1,9 @@
 # test_functions.py
-from src.utils import get_transactions_from_csv, get_transactions_from_excel, get_transactions_from_file
+from src.utils import (
+    get_transactions_from_csv,
+    get_transactions_from_excel,
+    get_transactions_from_file,
+)
 
 # Проверка чтения CSV
 csv_transactions = get_transactions_from_csv("data/transactions.csv")

@@ -70,11 +70,13 @@ def get_cards_info(transactions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
     result = []
     for card_data in cards.values():
-        result.append({
-            "last_digits": card_data["last_digits"],
-            "total_spent": round(card_data["total_spent"], 2),
-            "cashback": round(card_data["cashback"], 2),
-        })
+        result.append(
+            {
+                "last_digits": card_data["last_digits"],
+                "total_spent": round(card_data["total_spent"], 2),
+                "cashback": round(card_data["cashback"], 2),
+            }
+        )
     return result
 
 

@@ -1,5 +1,6 @@
 from datetime import datetime
-from src.views import get_greeting, get_cards_info, get_top_transactions
+
+from src.views import get_cards_info, get_greeting, get_top_transactions
 
 
 def test_get_greeting():
@@ -22,9 +23,24 @@ def test_get_cards_info():
 
 def test_get_top_transactions():
     transactions = [
-        {"Дата операции": datetime(2021, 12, 1), "Сумма платежа": -100, "Категория": "A", "Описание": "a"},
-        {"Дата операции": datetime(2021, 12, 2), "Сумма платежа": -500, "Категория": "B", "Описание": "b"},
-        {"Дата операции": datetime(2021, 12, 3), "Сумма платежа": -300, "Категория": "C", "Описание": "c"},
+        {
+            "Дата операции": datetime(2021, 12, 1),
+            "Сумма платежа": -100,
+            "Категория": "A",
+            "Описание": "a",
+        },
+        {
+            "Дата операции": datetime(2021, 12, 2),
+            "Сумма платежа": -500,
+            "Категория": "B",
+            "Описание": "b",
+        },
+        {
+            "Дата операции": datetime(2021, 12, 3),
+            "Сумма платежа": -300,
+            "Категория": "C",
+            "Описание": "c",
+        },
     ]
     result = get_top_transactions(transactions, limit=2)
     assert len(result) == 2

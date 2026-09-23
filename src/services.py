@@ -35,9 +35,7 @@ def filter_transactions_by_date(
     return result
 
 
-def simple_search(
-    transactions: List[Dict[str, Any]], query: str
-) -> List[Dict[str, Any]]:
+def simple_search(transactions: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
     """
     Простой поиск по описанию и категории (регистронезависимый).
     """

@@ -23,16 +23,11 @@ def setup_logging():
 
     # Создаем форматтер
     formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
     )
 
     # Создаем обработчик для записи в файл
-    file_handler = logging.FileHandler(
-        LOG_DIR / 'app.log',
-        mode='w',
-        encoding='utf-8'
-    )
+    file_handler = logging.FileHandler(LOG_DIR / "app.log", mode="w", encoding="utf-8")
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 
